@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content OS - Pengelola Ide Konten</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-700 antialiased pb-12">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-30 glass-card border-b border-pink-100/50 shadow-sm mb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-softBlue-300 to-softPink-300 flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-lightbulb text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-softBlue-500 to-pink-500 bg-clip-text text-transparent">
+                        My Idea
+                    </h1>
+                    <p class="text-xs text-slate-500">Kelola dan atur ide konten lintas platform dalam satu tempat</p>
+                </div>
+            </div>
+
+            <!-- Action Header Button -->
+            <button onclick="openModal('add')" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-gradient-to-r from-softBlue-400 to-softPink-300 text-white font-medium shadow-sm hover:shadow-md hover:opacity-95 transition-all transform active:scale-95 text-sm">
+                <i class="fa-solid fa-plus mr-2"></i> Tambah Ide Baru
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Analytics & Quick Summary -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="glass-card p-4 rounded-2xl border border-blue-100 flex items-center justify-between shadow-xs">
+                <div>
+                    <p class="text-xs font-medium text-slate-500">Total Ide Konten</p>
+                    <h3 id="statTotal" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center">
+                    <i class="fa-solid fa-folder-open text-lg"></i>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl border border-red-100 flex items-center justify-between shadow-xs">
+                <div>
+                    <p class="text-xs font-medium text-slate-500">YouTube</p>
+                    <h3 id="statYoutube" class="text-2xl font-bold text-red-500 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
+                    <i class="fa-brands fa-youtube text-lg"></i>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl border border-slate-200 flex items-center justify-between shadow-xs">
+                <div>
+                    <p class="text-xs font-medium text-slate-500">TikTok</p>
+                    <h3 id="statTiktok" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center">
+                    <i class="fa-brands fa-tiktok text-lg"></i>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl border border-pink-100 flex items-center justify-between shadow-xs">
+                <div>
+                    <p class="text-xs font-medium text-slate-500">Instagram</p>
+                    <h3 id="statInstagram" class="text-2xl font-bold text-pink-500 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-pink-50 text-pink-500 flex items-center justify-center">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Navigation & Filters Bar -->
+        <div class="glass-card rounded-2xl p-4 mb-6 border border-white/60 shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                
+                <!-- Platform Navigation Tabs -->
+                <div class="flex items-center overflow-x-auto space-x-2 pb-2 lg:pb-0 custom-scrollbar">
+                    <button onclick="setPlatformFilter('ALL')" id="tab-ALL" class="nav-tab px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap bg-blue-500 text-white shadow-sm">
+                        <i class="fa-solid fa-layer-group mr-1.5"></i> Semua Platform
+                    </button>
+                    <button onclick="setPlatformFilter('YouTube')" id="tab-YouTube" class="nav-tab px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-red-50 hover:text-red-500 transition-all whitespace-nowrap">
+                        <i class="fa-brands fa-youtube text-red-500 mr-1.5"></i> YouTube
+                    </button>
+                    <button onclick="setPlatformFilter('TikTok')" id="tab-TikTok" class="nav-tab px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all whitespace-nowrap">
+                        <i class="fa-brands fa-tiktok text-slate-800 mr-1.5"></i> TikTok
+                    </button>
+                    <button onclick="setPlatformFilter('Instagram')" id="tab-Instagram" class="nav-tab px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-pink-50 hover:text-pink-500 transition-all whitespace-nowrap">
+                        <i class="fa-brands fa-instagram text-pink-500 mr-1.5"></i> Instagram
+                    </button>
+                </div>
+
+                <!-- Secondary Filters: Search & Status -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Search Input -->
+                    <div class="relative flex-1 min-w-[200px]">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari judul ide / materi..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-softBlue-300 focus:border-transparent bg-white/80">
+                    </div>
+
+                    <!-- Status Filter -->
+                    <select id="statusFilter" onchange="handleStatusFilter()" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white/80 focus:outline-none focus:ring-2 focus:ring-softBlue-300 text-slate-700">
+                        <option value="ALL">Semua Status</option>
+                        <option value="Draft">Draft (Ide)</option>
+                        <option value="In Progress">Proses Pengerjaan</option>
+                        <option value="Ready">Siap Tayang</option>
+                        <option value="Published">Selesai / Tayang</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Content Cards Grid -->
+        <div id="ideasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Dynamic Content Cards Will Be Injected Here -->
+        </div>
+
+        <!-- Empty State View -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-16 text-center">
+            <div class="w-20 h-20 bg-pink-100/70 text-pink-400 rounded-full flex items-center justify-center text-3xl mb-4 shadow-inner">
+                <i class="fa-solid fa-lightbulb-slash"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-700">Belum Ada Ide Konten</h3>
+            <p class="text-sm text-slate-500 max-w-sm mt-1 mb-6">Mulai catat ide kreatifmu sekarang agar tidak terlupa atau berserakan!</p>
+            <button onclick="openModal('add')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-softBlue-400 to-softPink-300 text-white font-medium text-sm shadow-md hover:opacity-90">
+                + Tambah Ide Pertama
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Add / Edit Modal -->
+    <div id="ideaModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-opacity">
+        <div class="glass-card bg-white/95 rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-pink-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <h3 id="modalTitle" class="text-lg font-bold text-slate-800 flex items-center">
+                    <i class="fa-solid fa-pen-to-square text-softBlue-400 mr-2"></i> Tambah Ide Konten
+                </h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="ideaForm" onsubmit="saveIdea(event)">
+                <input type="hidden" id="ideaId">
+                
+                <!-- Judul Besar -->
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Judul Besar Konten <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text" id="titleInput" required placeholder="Contoh: 5 Tips Produktif Kerja Remote 2026" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-softBlue-300 text-sm bg-white">
+                </div>
+
+                <!-- Platform Selection (Multi-Select Checkboxes) -->
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Target Platform <span class="text-red-400">*</span>
+                    </label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" value="YouTube" name="platforms" class="w-4 h-4 text-red-500 rounded border-slate-300 focus:ring-red-400">
+                            <span class="ml-2.5 text-xs font-medium text-slate-700 flex items-center">
+                                <i class="fa-brands fa-youtube text-red-500 mr-1.5"></i> YouTube
+                            </span>
+                        </label>
+                        <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" value="TikTok" name="platforms" class="w-4 h-4 text-slate-800 rounded border-slate-300 focus:ring-slate-400">
+                            <span class="ml-2.5 text-xs font-medium text-slate-700 flex items-center">
+                                <i class="fa-brands fa-tiktok text-slate-800 mr-1.5"></i> TikTok
+                            </span>
+                        </label>
+                        <label class="flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="checkbox" value="Instagram" name="platforms" class="w-4 h-4 text-pink-500 rounded border-slate-300 focus:ring-pink-400">
+                            <span class="ml-2.5 text-xs font-medium text-slate-700 flex items-center">
+                                <i class="fa-brands fa-instagram text-pink-500 mr-1.5"></i> Instagram
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Status & Pillar -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                            Status Pengerjaan
+                        </label>
+                        <select id="statusInput" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-softBlue-300 text-sm bg-white">
+                            <option value="Draft">📝 Draft (Ide Baru)</option>
+                            <option value="In Progress">🎬 Dalam Pengerjaan</option>
+                            <option value="Ready">✅ Siap Tayang</option>
+                            <option value="Published">🚀 Sudah Tayang</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                            Pilar / Kategori Materi
+                        </label>
+                        <input type="text" id="pillarInput" placeholder="Misal: Edukasi, Vlog, Tutorial" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-softBlue-300 text-sm bg-white">
+                    </div>
+                </div>
+
+                <!-- Catatan & Materi Konten -->
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+                        Catatan, Outline / Naskah Materi
+                    </label>
+                    <textarea id="notesInput" rows="4" placeholder="Tuliskan hook, poin utama, atau referensi link materi di sini..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-softBlue-300 text-sm bg-white custom-scrollbar"></textarea>
+                </div>
+
+                <!-- Footer Modal Buttons -->
+                <div class="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-softBlue-400 to-softPink-300 text-white text-sm font-medium shadow-md hover:opacity-90 transition">
+                        Simpan Ide
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Detail Modal -->
+    <div id="viewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+        <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-blue-100 max-h-[85vh] overflow-y-auto custom-scrollbar">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <span id="viewStatusBadge" class="px-3 py-1 rounded-full text-xs font-semibold"></span>
+                <button onclick="closeViewModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <h2 id="viewTitle" class="text-xl font-bold text-slate-800 mb-2"></h2>
+            
+            <div class="flex flex-wrap items-center gap-2 mb-4 text-xs text-slate-500">
+                <span><i class="fa-regular fa-calendar mr-1"></i> <span id="viewCreatedDate"></span></span>
+                <span>•</span>
+                <span><i class="fa-solid fa-tag mr-1"></i> <span id="viewPillar"></span></span>
+            </div>
+
+            <div class="mb-4">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Platform Target:</p>
+                <div id="viewPlatforms" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 mb-5">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Detail & Materi Konten:</p>
+                <div id="viewNotes" class="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed"></div>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <button onclick="closeViewModal()" class="px-5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-medium transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Toast Message Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-out bg-slate-800 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-3 text-sm">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-green-400"></i>
+        <span id="toastMessage">Pesan berhasil disimpan</span>
+    </div>
+
+    <!-- External Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
