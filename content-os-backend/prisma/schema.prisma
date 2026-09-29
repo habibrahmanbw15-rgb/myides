@@ -3,14 +3,15 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Idea {
-  id        String   @id @default(uuid()) // atau Int @id @default(autoincrement())
+  id        String   @id @default(uuid())
   title     String
-  platforms String   // Disimpan sebagai stringified JSON
+  platforms String
   status    String   @default("Draft")
   pillar    String?
   notes     String?

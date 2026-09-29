@@ -4,10 +4,14 @@ const { PrismaClient } = require('@prisma/client');
 
 const app = express();
 const prisma = new PrismaClient();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware wajib
-app.use(cors());
+app.use(cors({
+  origin: '*', // Bisa dibatasi ke domain frontend production nanti
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
 
 // ==========================================

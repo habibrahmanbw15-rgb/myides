@@ -20,7 +20,10 @@ tailwind.config = {
 };
 
 // URL Server Backend Express
-const API_URL = 'http://localhost:3000/api/ideas';
+// Ganti dengan URL Railway kamu setelah deploy backend
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api/ideas'
+    : 'https://GANTI-DENGAN-URL-RAILWAY-KAMU.railway.app/api/ideas';
 
 // State aplikasi
 let ideas = [];
