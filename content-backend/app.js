@@ -98,6 +98,7 @@ app.delete('/api/ideas/:id', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server Backend berjalan di http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Server di http://localhost:${PORT}`));
+}
+module.exports = app;
